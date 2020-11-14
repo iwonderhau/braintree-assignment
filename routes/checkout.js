@@ -3,6 +3,7 @@ const router = express.Router();
 const braintree = require('braintree');
 
 router.post('/', (req, res, next) => {
+
   const gateway = new braintree.BraintreeGateway({
     environment: braintree.Environment.Sandbox,
     // Use your own credentials from the sandbox Control Panel here
@@ -13,10 +14,14 @@ router.post('/', (req, res, next) => {
 
   // Use the payment method nonce here
   const nonceFromTheClient = req.body.paymentMethodNonce;
+
+  // jonathan: take the amount!
+  const payamount = req.body.amount;
+
   // Create a new transaction for $10
   const newTransaction = gateway.transaction.sale(
     {
-      amount: '5001.00',
+      amount: payamount, // '10.00',
       paymentMethodNonce: nonceFromTheClient,
       options: {
         // This option requests the funds from the transaction

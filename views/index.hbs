@@ -1,6 +1,7 @@
 <div id="dropin-wrapper">
     <div id="checkout-message"></div>
     <div id="dropin-container"></div>
+    <input id="txn-amount" />
     <button id="submit-button">Submit payment</button>
 </div>
 <script>
@@ -13,12 +14,13 @@
     }, function (createErr, instance) {
         button.addEventListener('click', function () {
             instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
+                var txnamount = document.getElementById('txn-amount').value;
                 // When the user clicks on the 'Submit payment' button this code will send the
                 // encrypted payment information in a variable called a payment method nonce
                 $.ajax({
                     type: 'POST',
                     url: '/checkout',
-                    data: { 'paymentMethodNonce': payload.nonce }
+                    data: { 'paymentMethodNonce': payload.nonce, 'amount': txnamount }
                 }).done(function (result) {
                     // Tear down the Drop-in UI
                     instance.teardown(function (teardownErr) {
@@ -26,16 +28,22 @@
                             console.error('Could not tear down Drop-in UI!');
                         } else {
                             console.info('Drop-in UI has been torn down!');
-                            // Remove the 'Submit payment' button
-                            $('#submit-button').remove();
                         }
+                        $('#submit-button').remove();
+                        $('#txn-amount').remove();
                     });
 
+                    const tAmount = result.transaction.amount;
+                    const tRespText = result.transaction.processorResponseText;
+                    const tRespCode = result.transaction.processorResponseCode;
+
                     if (result.success) {
-                        $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
+                        console.log(result);
+                        document.getElementById("checkout-message").innerHTML = "<h1>Success</h1><p>Amount Paid: " + tAmount + "</p><p>Response Code: " + tRespCode + "</p><p>Response Text: " + tRespText + "</P>";
+
                     } else {
                         console.log(result);
-                        $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
+                        document.getElementById("checkout-message").innerHTML = "<h1>Error</h1><p>Response Code: " + tRespCode + "</p><p>Response Text: " + tRespText + "</P>";
                     }
                 });
             });
