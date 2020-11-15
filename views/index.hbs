@@ -1,8 +1,10 @@
 <div id="dropin-wrapper">
     <div id="checkout-message"></div>
     <div id="dropin-container"></div>
-    <label id="txn-label">Enter transaction amount: </label><input id="txn-amount" />
-    <button id="submit-button">Submit payment</button>
+    <div id=submit-section>
+        <label id="txn-label">Enter transaction amount: </label><input id="txn-amount" value='1.0' />
+        <button id="submit-button">Submit payment</button>
+    </div>
 </div>
 <script>
     var button = document.querySelector('#submit-button');
@@ -29,9 +31,7 @@
                         } else {
                             console.info('Drop-in UI has been torn down!');
                         }
-                        $('#submit-button').remove();
-                        $('#txn-amount').remove();
-                        $('#txn-label').remove();
+                        $('#submit-section').remove();
                     });
 
                     const tAmount = result.transaction.amount;

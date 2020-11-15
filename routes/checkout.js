@@ -15,7 +15,7 @@ router.post('/', (req, res, next) => {
   // Use the payment method nonce here
   const nonceFromTheClient = req.body.paymentMethodNonce;
 
-  // jonathan: take the amount!
+  // get the amount to transact
   const payamount = req.body.amount;
 
   // Create a new transaction for $10
