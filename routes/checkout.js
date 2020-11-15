@@ -18,10 +18,10 @@ router.post('/', (req, res, next) => {
   // get the amount to transact
   const payamount = req.body.amount;
 
-  // Create a new transaction for $10
+  // Create a new transaction
   const newTransaction = gateway.transaction.sale(
     {
-      amount: payamount, // '10.00',
+      amount: payamount,
       paymentMethodNonce: nonceFromTheClient,
       options: {
         // This option requests the funds from the transaction
