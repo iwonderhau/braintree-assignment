@@ -1,7 +1,7 @@
 <div id="dropin-wrapper">
     <div id="checkout-message"></div>
     <div id="dropin-container"></div>
-    <input id="txn-amount" />
+    <label id="txn-label">Enter transaction amount: </label><input id="txn-amount" />
     <button id="submit-button">Submit payment</button>
 </div>
 <script>
@@ -31,6 +31,7 @@
                         }
                         $('#submit-button').remove();
                         $('#txn-amount').remove();
+                        $('#txn-label').remove();
                     });
 
                     const tAmount = result.transaction.amount;
